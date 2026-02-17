@@ -9,8 +9,34 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        indigo: {
+          600: "#4F46E5",
+          700: "#4338CA",
+        },
+        violet: {
+          500: "#7C3AED",
+          600: "#6D28D9",
+        },
+        emerald: {
+          500: "#10B981",
+          600: "#059669",
+        },
+        slate: {
+          50: "#F8FAFC",
+          100: "#F1F5F9",
+          200: "#E2E8F0",
+          300: "#CBD5E1",
+          400: "#94A3B8",
+          500: "#64748B",
+          600: "#475569",
+          700: "#334155",
+          800: "#1E293B",
+          900: "#0F172A",
+        },
+      },
+      fontFamily: {
+        heading: ["Inter", "system-ui", "sans-serif"],
+        body: ["system-ui", "-apple-system", "sans-serif"],
       },
     },
   },
