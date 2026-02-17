@@ -17,19 +17,19 @@ const faqs = [
   },
   {
     q: "What kind of support do you offer?",
-    a: "Starter plans include email support. Professional plans get priority support with faster response times. Enterprise plans include a dedicated account manager and onboarding assistance.",
+    a: "Every plan includes a dedicated account manager and personalized onboarding. We work directly with your team to get you set up and ensure long-term success.",
   },
   {
-    q: "Is there a free trial?",
-    a: "Yes — every plan comes with a 14-day free trial. No credit card required. You get full access to all features in your chosen plan.",
+    q: "How does pricing work?",
+    a: "We build a custom plan based on your number of stores, team size, and the modules you need. Book a demo and we'll put together a personalized proposal — no generic price lists.",
   },
   {
     q: "Can I integrate Plexo with other tools?",
-    a: "Enterprise plans include full API access for custom integrations. We also support webhooks and are building native integrations with popular tools.",
+    a: "Yes. Plexo includes API access and webhook support for custom integrations. We're also building native integrations with popular retail and enterprise tools.",
   },
   {
-    q: "How is pricing calculated?",
-    a: "Pricing is per active user per month. You only pay for users who are active. Annual plans save 20% compared to monthly billing.",
+    q: "How do I get started?",
+    a: "Book a 30-minute demo with our team. We'll walk you through the platform, answer your questions, and have you up and running shortly after.",
   },
 ];
 

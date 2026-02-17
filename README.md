@@ -157,12 +157,12 @@ Professional, confident, no-nonsense. Tagline: **"Your stores, perfectly in sync
 The site is a single-page scrollable landing with the following sections in order:
 
 ### 1. Header (sticky)
-Persistent top navigation with the Plexo logo, anchor links (Features, How It Works, Pricing, FAQ), a "Log In" text link, and a "Start Free Trial" CTA button. Collapses to a hamburger menu on mobile.
+Persistent top navigation with the Plexo logo, anchor links (Features, How It Works, Pricing, FAQ), a "Log In" text link, and a "Book a Demo" CTA button. Collapses to a hamburger menu on mobile.
 
 ### 2. Hero
 - **Headline:** "Retail Operations, Perfected."
 - **Subheadline:** "The all-in-one platform to manage tasks, audits, training, and campaigns across every store."
-- **CTAs:** "Start Free Trial" (primary) + "Book a Demo" (secondary, mailto)
+- **CTAs:** "Book a Demo" (primary, mailto) + "See What's Included" (secondary, scrolls to pricing)
 - **Visual:** A CSS-rendered dashboard mockup inside a laptop frame with a floating phone mockup showing notification cards. Dashboard shows stat cards (Active Tasks, Compliance %, Open Audits, Campaigns), a bar chart, and compliance progress bars.
 
 ### 3. Problem Statement
@@ -197,18 +197,13 @@ Three-step horizontal flow with connector lines between steps:
 Split layout: text on the left with a feature checklist (offline support, photo capture, push notifications), and a detailed phone mockup on the right showing a task list UI with a floating "Task Completed" notification card.
 
 ### 7. Pricing
-Three tiers with an annual/monthly toggle:
-- **Starter** — $3/user/month ($2.40 annual)
-- **Professional** — $6/user/month ($4.80 annual) — marked "Most Popular"
-- **Enterprise** — Custom pricing
-
-The Professional tier is visually elevated with a border, shadow, and "Most Popular" badge. All plans include a 14-day free trial with no credit card required.
+Demo-driven model — no public price tiers. The section highlights three value pillars (all modules included, native mobile apps, tailored to your chain), followed by a central CTA card inviting visitors to "Book a Demo" or "Request Pricing". A checklist of all 15 included capabilities is displayed below the CTAs.
 
 ### 8. FAQ
-Seven expandable accordion items covering: onboarding time, offline support, template customization, support tiers, free trial details, integrations, and pricing model.
+Seven expandable accordion items covering: onboarding time, offline support, template customization, support, pricing model, integrations, and getting started.
 
 ### 9. CTA Banner
-Full-width indigo section with decorative gradient blobs, a headline ("Ready to streamline your operations?"), and two CTAs: "Start Free Trial" and "Talk to Sales".
+Full-width indigo section with decorative gradient blobs, a headline ("Ready to streamline your operations?"), and two CTAs: "Book a Demo" and "Request Pricing".
 
 ### 10. Footer
 Four-column layout: brand description, Product links, Company links, Legal links. Includes Twitter/X and LinkedIn social icons, and a dynamic copyright year.
@@ -217,7 +212,7 @@ Four-column layout: brand description, Product links, Company links, Legal links
 
 ## Components Reference
 
-All components live in `src/app/components/`. Three components are client components (use `"use client"`):
+All components live in `src/app/components/`. Two components are client components (use `"use client"`):
 
 | Component          | Client? | Interactive Feature                          |
 | ------------------ | ------- | -------------------------------------------- |
@@ -227,32 +222,35 @@ All components live in `src/app/components/`. Three components are client compon
 | `Features.tsx`     | No      | CSS hover effects only                       |
 | `HowItWorks.tsx`   | No      | Static                                       |
 | `MobileShowcase.tsx`| No     | Static                                       |
-| `Pricing.tsx`      | Yes     | Annual/monthly billing toggle                |
+| `Pricing.tsx`      | No      | Static                                       |
 | `FAQ.tsx`          | Yes     | Accordion expand/collapse                    |
 | `CTABanner.tsx`    | No      | Static                                       |
 | `Footer.tsx`       | No      | Static                                       |
 
 ---
 
-## Pricing Tiers
+## Pricing Model
 
-| Feature                    | Starter ($3) | Professional ($6) | Enterprise (Custom) |
-| -------------------------- | :----------: | :----------------: | :-----------------: |
-| Tasks & Assignments        | Yes          | Yes                | Yes                 |
-| Checklists & SOPs          | Yes          | Yes                | Yes                 |
-| Issue Tracking             | Yes          | Yes                | Yes                 |
-| Mobile App                 | Yes          | Yes                | Yes                 |
-| Store Audits               | 50/month     | 200/month          | Unlimited           |
-| Campaign Execution         | -            | Yes                | Yes                 |
-| Training & LMS             | -            | Yes                | Yes                 |
-| Corrective Actions (CAPA)  | -            | Yes                | Yes                 |
-| Gamification               | -            | Yes                | Yes                 |
-| Visual Merchandising       | -            | Yes                | Yes                 |
-| SSO / SAML                 | -            | -                  | Yes                 |
-| API Access                 | -            | -                  | Yes                 |
-| Dedicated Support          | -            | -                  | Yes                 |
-| SLA Guarantee              | -            | -                  | Yes                 |
-| Annual Discount            | 20%          | 20%                | Custom              |
+Plexo uses a **demo-driven, custom pricing model**. There are no public price tiers. Instead, the pricing section showcases the platform's value and drives visitors to book a demo or request a personalized proposal.
+
+**Rationale:** Every retail chain has different needs (store count, team size, modules required). Custom pricing allows tailored proposals and higher-value conversations.
+
+**All plans include:**
+- Tasks & Assignments
+- Checklists & SOPs
+- Store Audits & Inspections
+- Campaign Execution
+- Training & LMS
+- Corrective Actions (CAPA)
+- Gamification & Leaderboards
+- Visual Merchandising
+- Issue Tracking
+- Native Mobile App (iOS & Android)
+- Real-time Dashboard & Analytics
+- SSO / SAML Authentication
+- API Access & Integrations
+- Dedicated Account Manager
+- Custom Onboarding & Training
 
 ---
 

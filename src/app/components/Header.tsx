@@ -47,7 +47,7 @@ export default function Header() {
               href="#pricing"
               className="inline-flex items-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
             >
-              Start Free Trial
+              Book a Demo
             </a>
           </div>
 
@@ -87,7 +87,7 @@ export default function Header() {
               onClick={() => setMobileOpen(false)}
               className="block w-full text-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
             >
-              Start Free Trial
+              Book a Demo
             </a>
           </div>
         </div>

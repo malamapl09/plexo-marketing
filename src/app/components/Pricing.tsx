@@ -1,174 +1,133 @@
-"use client";
-
-import { useState } from "react";
-
-const tiers = [
+const highlights = [
   {
-    name: "Starter",
-    monthlyPrice: 3,
-    annualPrice: 2.4,
-    desc: "For small teams getting started with structured operations.",
-    features: [
-      "Tasks & Assignments",
-      "Checklists & SOPs",
-      "Issue Tracking",
-      "Mobile App (iOS & Android)",
-      "50 audits / month",
-      "Email support",
-    ],
-    cta: "Start Free Trial",
-    popular: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+      </svg>
+    ),
+    title: "All 9 modules included",
+    desc: "Tasks, audits, campaigns, training, checklists, CAPA, gamification, visual merchandising, and issue tracking.",
   },
   {
-    name: "Professional",
-    monthlyPrice: 6,
-    annualPrice: 4.8,
-    desc: "For growing chains that need full operational control.",
-    features: [
-      "Everything in Starter",
-      "Store Audits & Inspections",
-      "Campaign Execution",
-      "Training & LMS",
-      "Corrective Actions (CAPA)",
-      "Gamification & Leaderboards",
-      "Visual Merchandising",
-      "200 audits / month",
-      "Priority support",
-    ],
-    cta: "Start Free Trial",
-    popular: true,
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+    ),
+    title: "Native mobile apps",
+    desc: "iOS and Android apps with offline support, push notifications, and photo capture.",
   },
   {
-    name: "Enterprise",
-    monthlyPrice: null,
-    annualPrice: null,
-    desc: "For large retailers with custom requirements.",
-    features: [
-      "Everything in Professional",
-      "Unlimited audits",
-      "SSO / SAML authentication",
-      "API access & integrations",
-      "Dedicated account manager",
-      "Custom onboarding & training",
-      "SLA guarantee",
-    ],
-    cta: "Talk to Sales",
-    popular: false,
+    icon: (
+      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+    ),
+    title: "Tailored to your chain",
+    desc: "Custom onboarding, integrations, and configuration to match how your stores actually operate.",
   },
 ];
 
-export default function Pricing() {
-  const [annual, setAnnual] = useState(true);
+const included = [
+  "Tasks & Assignments",
+  "Checklists & SOPs",
+  "Store Audits & Inspections",
+  "Campaign Execution",
+  "Training & LMS",
+  "Corrective Actions (CAPA)",
+  "Gamification & Leaderboards",
+  "Visual Merchandising",
+  "Issue Tracking",
+  "Native Mobile App (iOS & Android)",
+  "Real-time Dashboard & Analytics",
+  "SSO / SAML Authentication",
+  "API Access & Integrations",
+  "Dedicated Account Manager",
+  "Custom Onboarding & Training",
+];
 
+export default function Pricing() {
   return (
     <section id="pricing" className="py-20 sm:py-28 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wide mb-3">
             Pricing
           </p>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-            Simple, transparent pricing
+            Plans built around your operation
           </h2>
           <p className="mt-4 text-lg text-slate-600">
-            14-day free trial on all plans. No credit card required.
+            Every retail chain is different. We&apos;ll craft a plan that fits your
+            number of stores, team size, and the modules you need.
           </p>
-
-          {/* Toggle */}
-          <div className="mt-8 flex items-center justify-center gap-3">
-            <span className={`text-sm font-medium ${!annual ? "text-slate-900" : "text-slate-500"}`}>
-              Monthly
-            </span>
-            <button
-              onClick={() => setAnnual(!annual)}
-              className={`relative w-12 h-6 rounded-full transition-colors ${
-                annual ? "bg-indigo-600" : "bg-slate-300"
-              }`}
-              aria-label="Toggle annual pricing"
-            >
-              <div
-                className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
-                  annual ? "translate-x-6" : "translate-x-0.5"
-                }`}
-              />
-            </button>
-            <span className={`text-sm font-medium ${annual ? "text-slate-900" : "text-slate-500"}`}>
-              Annual
-            </span>
-            {annual && (
-              <span className="text-xs font-semibold bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full">
-                Save 20%
-              </span>
-            )}
-          </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {tiers.map((tier) => (
+        {/* Highlights */}
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          {highlights.map((h) => (
             <div
-              key={tier.name}
-              className={`relative bg-white rounded-2xl p-8 ${
-                tier.popular
-                  ? "border-2 border-indigo-600 shadow-xl shadow-indigo-600/10 scale-105"
-                  : "border border-slate-200"
-              }`}
+              key={h.title}
+              className="bg-white border border-slate-200 rounded-2xl p-6 text-center"
             >
-              {tier.popular && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="bg-indigo-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    Most Popular
-                  </span>
-                </div>
-              )}
-
-              <h3 className="text-lg font-bold text-slate-900">{tier.name}</h3>
-              <p className="text-sm text-slate-500 mt-1">{tier.desc}</p>
-
-              <div className="mt-6 mb-6">
-                {tier.monthlyPrice !== null ? (
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-extrabold text-slate-900">
-                      ${annual ? tier.annualPrice : tier.monthlyPrice}
-                    </span>
-                    <span className="text-slate-500">/user/month</span>
-                  </div>
-                ) : (
-                  <div className="flex items-baseline">
-                    <span className="text-4xl font-extrabold text-slate-900">Custom</span>
-                  </div>
-                )}
+              <div className="w-12 h-12 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 mx-auto mb-4">
+                {h.icon}
               </div>
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">{h.title}</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">{h.desc}</p>
+            </div>
+          ))}
+        </div>
 
+        {/* Central CTA card */}
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white border-2 border-indigo-600 rounded-2xl p-8 sm:p-10 shadow-xl shadow-indigo-600/10 text-center">
+            <h3 className="text-2xl font-bold text-slate-900">
+              See Plexo in action
+            </h3>
+            <p className="mt-3 text-slate-600 max-w-lg mx-auto">
+              Book a 30-minute demo with our team. We&apos;ll walk you through the
+              platform, answer your questions, and put together a personalized
+              proposal for your chain.
+            </p>
+
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href={tier.name === "Enterprise" ? "mailto:sales@plexoapp.com" : "#pricing"}
-                className={`block w-full text-center px-6 py-3 rounded-xl text-sm font-semibold transition-all ${
-                  tier.popular
-                    ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-lg shadow-indigo-600/25"
-                    : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                }`}
+                href="mailto:sales@plexoapp.com?subject=Demo%20Request%20%E2%80%93%20Plexo"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-600/25 transition-all"
               >
-                {tier.cta}
+                Book a Demo
               </a>
+              <a
+                href="mailto:sales@plexoapp.com?subject=Pricing%20Inquiry%20%E2%80%93%20Plexo"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:text-indigo-600 transition-all"
+              >
+                Request Pricing
+              </a>
+            </div>
 
-              <ul className="mt-8 space-y-3">
-                {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
+            {/* What's included */}
+            <div className="mt-10 pt-8 border-t border-slate-100">
+              <p className="text-sm font-semibold text-slate-900 mb-4">
+                Every plan includes:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-2 text-left max-w-lg mx-auto">
+                {included.map((item) => (
+                  <div key={item} className="flex items-center gap-2">
                     <svg
-                      className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
-                        tier.popular ? "text-indigo-600" : "text-emerald-500"
-                      }`}
+                      className="w-4 h-4 text-emerald-500 flex-shrink-0"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                     >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
-                    <span className="text-sm text-slate-600">{feature}</span>
-                  </li>
+                    <span className="text-sm text-slate-600">{item}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
