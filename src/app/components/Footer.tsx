@@ -39,8 +39,8 @@ export default function Footer() {
             <Image
               src="/logo.svg"
               alt="Plexo"
-              width={100}
-              height={28}
+              width={130}
+              height={34}
               className="brightness-0 invert"
             />
             <p className="mt-4 text-sm text-slate-400 leading-relaxed">
