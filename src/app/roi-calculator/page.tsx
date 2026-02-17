@@ -246,7 +246,7 @@ export default function ROICalculatorPage() {
     e.preventDefault();
     setEmailStatus("loading");
     try {
-      const res = await fetch("https://formspree.io/f/xdkovpgr", {
+      const res = await fetch("https://formspree.io/f/mvzbredr", {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({

@@ -23,7 +23,7 @@ interface FormErrors {
   company?: string;
 }
 
-const FORMSPREE_URL = "https://formspree.io/f/xdkovpgr";
+const FORMSPREE_URL = "https://formspree.io/f/mvzbredr";
 
 const STORE_COUNT_OPTIONS = [
   { value: "", label: "Select number of stores..." },
