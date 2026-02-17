@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const siteUrl = "https://plexoapp.com";
@@ -31,6 +32,10 @@ export const metadata: Metadata = {
     title: "Plexo — Retail Operations, Perfected",
     description:
       "The all-in-one platform to manage tasks, audits, training, and campaigns across every store.",
+  },
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/favicon.svg",
   },
 };
 
@@ -70,6 +75,7 @@ export default function RootLayout({
           }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   );

@@ -93,13 +93,13 @@ export default function Pricing() {
 
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="mailto:sales@plexoapp.com?subject=Demo%20Request%20%E2%80%93%20Plexo"
+                href="/demo"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-600/25 transition-all"
               >
                 Book a Demo
               </a>
               <a
-                href="mailto:sales@plexoapp.com?subject=Pricing%20Inquiry%20%E2%80%93%20Plexo"
+                href="/demo"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:text-indigo-600 transition-all"
               >
                 Request Pricing

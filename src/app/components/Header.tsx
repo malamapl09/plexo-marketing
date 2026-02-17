@@ -38,7 +38,7 @@ export default function Header() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center">
             <a
-              href="mailto:sales@plexoapp.com?subject=Demo%20Request%20%E2%80%93%20Plexo"
+              href="/demo"
               className="inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
             >
               Book a Demo
@@ -77,7 +77,7 @@ export default function Header() {
               </a>
             ))}
             <a
-              href="#pricing"
+              href="/demo"
               onClick={() => setMobileOpen(false)}
               className="block w-full text-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
             >

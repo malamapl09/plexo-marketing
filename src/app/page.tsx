@@ -8,6 +8,7 @@ import Pricing from "./components/Pricing";
 import FAQ from "./components/FAQ";
 import CTABanner from "./components/CTABanner";
 import Footer from "./components/Footer";
+import AnimateIn from "./components/AnimateIn";
 
 export default function Home() {
   return (
@@ -15,13 +16,27 @@ export default function Home() {
       <Header />
       <main>
         <Hero />
-        <Problem />
-        <Features />
-        <HowItWorks />
-        <MobileShowcase />
-        <Pricing />
-        <FAQ />
-        <CTABanner />
+        <AnimateIn>
+          <Problem />
+        </AnimateIn>
+        <AnimateIn>
+          <Features />
+        </AnimateIn>
+        <AnimateIn>
+          <HowItWorks />
+        </AnimateIn>
+        <AnimateIn>
+          <MobileShowcase />
+        </AnimateIn>
+        <AnimateIn>
+          <Pricing />
+        </AnimateIn>
+        <AnimateIn>
+          <FAQ />
+        </AnimateIn>
+        <AnimateIn>
+          <CTABanner />
+        </AnimateIn>
       </main>
       <Footer />
     </>
