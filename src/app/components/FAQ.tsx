@@ -1,57 +1,30 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
-const faqs = [
-  {
-    q: "How long does it take to get started?",
-    a: "Most teams are up and running within a day. Add your stores, invite your team, and start creating tasks and checklists immediately. No complex setup or IT involvement required.",
-  },
-  {
-    q: "Does Plexo work offline?",
-    a: "Yes. The mobile app works offline and syncs automatically when your team reconnects. Perfect for stores with spotty connectivity or warehouse environments.",
-  },
-  {
-    q: "Can I customize checklists and audit templates?",
-    a: "Absolutely. Create unlimited custom checklists, audit forms, and task templates. Add scoring, photo requirements, conditional logic, and more.",
-  },
-  {
-    q: "What kind of support do you offer?",
-    a: "Every plan includes a dedicated account manager and personalized onboarding. We work directly with your team to get you set up and ensure long-term success.",
-  },
-  {
-    q: "How does pricing work?",
-    a: "We build a custom plan based on your number of stores, team size, and the modules you need. Book a demo and we'll put together a personalized proposal — no generic price lists.",
-  },
-  {
-    q: "Can I integrate Plexo with other tools?",
-    a: "Yes. Plexo includes API access and webhook support for custom integrations. We're also building native integrations with popular retail and enterprise tools.",
-  },
-  {
-    q: "How do I get started?",
-    a: "Book a 30-minute demo with our team. We'll walk you through the platform, answer your questions, and have you up and running shortly after.",
-  },
-];
+const FAQ_KEYS = [1, 2, 3, 4, 5, 6, 7] as const;
 
 export default function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
+  const t = useTranslations("FAQ");
 
   return (
     <section id="faq" className="py-20 sm:py-28">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wide mb-3">
-            FAQ
+            {t("sectionLabel")}
           </p>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-            Frequently asked questions
+            {t("title")}
           </h2>
         </div>
 
         <div className="space-y-3">
-          {faqs.map((faq, i) => (
+          {FAQ_KEYS.map((n, i) => (
             <div
-              key={i}
+              key={n}
               className="border border-slate-200 rounded-xl overflow-hidden"
             >
               <button
@@ -59,7 +32,7 @@ export default function FAQ() {
                 className="w-full flex items-center justify-between px-6 py-4 text-left hover:bg-slate-50 transition-colors"
               >
                 <span className="text-sm sm:text-base font-semibold text-slate-900 pr-4">
-                  {faq.q}
+                  {t(`q${n}`)}
                 </span>
                 <svg
                   className={`w-5 h-5 text-slate-400 flex-shrink-0 transition-transform ${
@@ -74,7 +47,7 @@ export default function FAQ() {
               </button>
               {open === i && (
                 <div className="px-6 pb-4">
-                  <p className="text-sm text-slate-600 leading-relaxed">{faq.a}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed">{t(`a${n}`)}</p>
                 </div>
               )}
             </div>

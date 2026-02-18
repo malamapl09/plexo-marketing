@@ -1,3 +1,5 @@
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -17,7 +19,7 @@ interface FeaturePageLayoutProps {
   mobileMockup?: ReactNode;
 }
 
-export default function FeaturePageLayout({
+export default async function FeaturePageLayout({
   badge,
   title,
   subtitle,
@@ -25,6 +27,8 @@ export default function FeaturePageLayout({
   mockup,
   mobileMockup,
 }: FeaturePageLayoutProps) {
+  const t = await getTranslations("FeaturePageLayout");
+
   return (
     <>
       <Header />
@@ -43,12 +47,12 @@ export default function FeaturePageLayout({
               {subtitle}
             </p>
             <div className="mt-10">
-              <a
+              <Link
                 href="/demo"
                 className="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-600/25 transition-all"
               >
-                See It in Action
-              </a>
+                {t("ctaDemo")}
+              </Link>
             </div>
           </div>
         </section>
@@ -76,7 +80,7 @@ export default function FeaturePageLayout({
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-                Key capabilities
+                {t("capabilitiesTitle")}
               </h2>
             </div>
             <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
@@ -105,15 +109,13 @@ export default function FeaturePageLayout({
               <div className="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
                   <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wide mb-3">
-                    Works on mobile
+                    {t("mobileTitle")}
                   </p>
                   <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-                    Everything your field team needs, in their pocket.
+                    {t("mobileSubtitle")}
                   </h2>
                   <p className="mt-4 text-lg text-slate-600 leading-relaxed">
-                    Your team doesn&apos;t sit at a desk — they&apos;re on the floor, in the
-                    aisles, and behind the counter. Plexo&apos;s native mobile app gives
-                    them full access to this module offline and on the go.
+                    {t("mobileDesc")}
                   </p>
                 </div>
                 <div className="flex justify-center lg:justify-end">
@@ -132,25 +134,24 @@ export default function FeaturePageLayout({
           </div>
           <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-              Ready to see this in your stores?
+              {t("ctaTitle")}
             </h2>
             <p className="mt-4 text-lg text-indigo-100 max-w-2xl mx-auto">
-              Book a personalized demo and we&apos;ll show you exactly how this works
-              for your operation.
+              {t("ctaSubtitle")}
             </p>
             <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
+              <Link
                 href="/demo"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-indigo-600 bg-white rounded-xl hover:bg-indigo-50 shadow-lg transition-all"
               >
-                Book a Demo
-              </a>
-              <a
+                {t("ctaDemo")}
+              </Link>
+              <Link
                 href="/#features"
                 className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white border-2 border-white/30 rounded-xl hover:bg-white/10 transition-all"
               >
-                Explore All Features
-              </a>
+                {t("ctaPricing")}
+              </Link>
             </div>
           </div>
         </section>

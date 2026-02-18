@@ -12,6 +12,7 @@ Plexo is a SaaS platform for retail chains to manage tasks, audits, training, ca
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
 - [Project Structure](#project-structure)
+- [Internationalization (i18n)](#internationalization-i18n)
 - [Brand Identity](#brand-identity)
 - [Page Sections](#page-sections)
 - [Feature Pages](#feature-pages)
@@ -38,6 +39,7 @@ Plexo is a productized version of an internal retail operations platform, built 
 - Provide dedicated feature pages with mockups and detailed capabilities
 - Convert visitors to sales conversations via a demo-driven model
 - Capture leads through a contact form and ROI calculator
+- Serve English and Spanish audiences with full localization
 
 This is a **standalone repository**, independent from the Plexo application codebase. Contact forms submit to [Formspree](https://formspree.io) — no custom backend required.
 
@@ -50,6 +52,7 @@ This is a **standalone repository**, independent from the Plexo application code
 | Framework   | Next.js 14 (App Router)             |
 | Language    | TypeScript                          |
 | Styling     | Tailwind CSS 3.4                    |
+| i18n        | next-intl 4.x                       |
 | Font        | Inter (Google Fonts CDN)            |
 | Forms       | Formspree                           |
 | Analytics   | Vercel Analytics                    |
@@ -107,16 +110,25 @@ plexo-marketing/
 │   ├── logo.svg                         # Plexo wordmark + geometric icon
 │   ├── favicon.svg                      # Favicon (3 Plexo nodes)
 │   └── robots.txt                       # Search engine crawler directives
+├── messages/
+│   ├── en.json                          # English translations (~745 keys)
+│   └── es.json                          # Spanish translations (~745 keys)
 ├── src/
+│   ├── i18n/
+│   │   ├── routing.ts                   # Locale config (en/es, prefix: as-needed)
+│   │   ├── request.ts                   # Request-scoped locale + message loading
+│   │   └── navigation.ts               # Locale-aware Link, useRouter, usePathname
+│   ├── lib/
+│   │   └── seo.ts                       # hreflang + canonical URL helper
+│   ├── middleware.ts                     # next-intl locale detection and routing
 │   └── app/
 │       ├── globals.css                  # Tailwind directives, Inter font import, base styles
-│       ├── layout.tsx                   # Root layout with metadata, OG tags, JSON-LD, Analytics
-│       ├── page.tsx                     # Main landing page — composes all section components
-│       ├── not-found.tsx                # Custom branded 404 page
-│       ├── sitemap.ts                   # Dynamic XML sitemap (all 16 pages)
+│       ├── layout.tsx                   # Bare root layout (passes children to [locale])
+│       ├── not-found.tsx                # Global 404 fallback
+│       ├── sitemap.ts                   # Bilingual XML sitemap (30 URLs, 15 pages × 2 locales)
 │       ├── opengraph-image.tsx          # Auto-generated OG image (1200x630)
 │       ├── components/
-│       │   ├── Header.tsx               # Sticky navigation bar with mobile menu
+│       │   ├── Header.tsx               # Sticky nav with mobile menu and language switcher
 │       │   ├── Hero.tsx                 # Hero headline, CTAs, dashboard mockup
 │       │   ├── Problem.tsx              # Pain points section (dark theme)
 │       │   ├── Features.tsx             # 3x3 grid of 9 core modules (links to feature pages)
@@ -125,30 +137,102 @@ plexo-marketing/
 │       │   ├── Pricing.tsx              # Demo-driven pricing section
 │       │   ├── FAQ.tsx                  # 7-item expandable accordion
 │       │   ├── CTABanner.tsx            # Full-width CTA with gradient background
-│       │   ├── Footer.tsx               # Footer with link columns and social icons
+│       │   ├── Footer.tsx               # Footer with link columns and contact email
 │       │   ├── FeaturePageLayout.tsx     # Shared layout for all feature detail pages
+│       │   ├── LanguageSwitcher.tsx      # EN/ES toggle button
 │       │   └── AnimateIn.tsx            # Scroll animation wrapper (Intersection Observer)
-│       ├── demo/page.tsx                # Contact / demo booking form (Formspree)
-│       ├── roi-calculator/page.tsx      # Interactive ROI calculator with email capture
-│       ├── features/
-│       │   ├── tasks/page.tsx
-│       │   ├── checklists/page.tsx
-│       │   ├── audits/page.tsx
-│       │   ├── campaigns/page.tsx
-│       │   ├── training/page.tsx
-│       │   ├── corrective-actions/page.tsx
-│       │   ├── gamification/page.tsx
-│       │   ├── visual-merchandising/page.tsx
-│       │   └── issue-tracking/page.tsx
-│       ├── privacy/page.tsx             # Privacy Policy
-│       ├── terms/page.tsx               # Terms of Service
-│       └── cookies/page.tsx             # Cookie Policy
+│       └── [locale]/
+│           ├── layout.tsx               # Locale layout: <html lang>, metadata, JSON-LD, provider
+│           ├── page.tsx                 # Landing page — composes all section components
+│           ├── not-found.tsx            # Localized 404 page
+│           ├── demo/
+│           │   ├── layout.tsx           # Metadata wrapper (demo is a client component)
+│           │   └── page.tsx             # Contact / demo booking form (Formspree)
+│           ├── roi-calculator/
+│           │   ├── layout.tsx           # Metadata wrapper (calculator is a client component)
+│           │   └── page.tsx             # Interactive ROI calculator with email capture
+│           ├── features/
+│           │   ├── tasks/page.tsx
+│           │   ├── checklists/page.tsx
+│           │   ├── audits/page.tsx
+│           │   ├── campaigns/page.tsx
+│           │   ├── training/page.tsx
+│           │   ├── corrective-actions/page.tsx
+│           │   ├── gamification/page.tsx
+│           │   ├── visual-merchandising/page.tsx
+│           │   └── issue-tracking/page.tsx
+│           ├── privacy/page.tsx         # Privacy Policy
+│           ├── terms/page.tsx           # Terms of Service
+│           └── cookies/page.tsx         # Cookie Policy
 ├── tailwind.config.ts                   # Brand color tokens and font families
-├── next.config.mjs                      # Next.js configuration
+├── next.config.mjs                      # Next.js config wrapped with createNextIntlPlugin
 ├── postcss.config.mjs                   # PostCSS config for Tailwind
 ├── tsconfig.json                        # TypeScript configuration
 └── package.json                         # Dependencies and scripts
 ```
+
+---
+
+## Internationalization (i18n)
+
+The site supports English and Spanish using [next-intl](https://next-intl.dev/).
+
+### URL Structure
+
+| Locale  | Example URL                                |
+| ------- | ------------------------------------------ |
+| English | `plexoapp.com/features/tasks` (no prefix)  |
+| Spanish | `plexoapp.com/es/features/tasks`           |
+
+English is the default locale — no `/en/` prefix. Spanish pages live under `/es/`. Visiting `/en/features/tasks` redirects to `/features/tasks`.
+
+### Architecture
+
+- **`src/i18n/routing.ts`** — Defines locales (`en`, `es`), default (`en`), and prefix mode (`as-needed`)
+- **`src/i18n/request.ts`** — Loads the correct `messages/{locale}.json` per request
+- **`src/i18n/navigation.ts`** — Exports locale-aware `Link`, `useRouter`, `usePathname`, `redirect`
+- **`src/middleware.ts`** — Detects locale from URL and routes accordingly
+- **`next.config.mjs`** — Wrapped with `createNextIntlPlugin`
+
+### Translation Files
+
+All text lives in `messages/en.json` and `messages/es.json` (~745 keys each), organized by component namespace:
+
+```
+{
+  "Header": { "features": "Features", ... },
+  "Hero": { "headline": "Retail Operations, Perfected.", ... },
+  "FeaturesTasksPage": { "metaTitle": "...", "cap1Title": "...", ... },
+  "ROICalculatorPage": { "badge": "ROI Calculator", ... },
+  "Metadata": { "homeTitle": "...", "jsonLdDescription": "...", ... },
+  ...
+}
+```
+
+### Using Translations
+
+| Context               | API                                                      |
+| --------------------- | -------------------------------------------------------- |
+| Server components     | `const t = await getTranslations("Namespace")`           |
+| Client components     | `const t = useTranslations("Namespace")`                 |
+| Shared components     | Use `useTranslations` (works in both contexts)           |
+| Metadata              | `generateMetadata()` with `getTranslations`              |
+| Links                 | `import { Link } from "@/i18n/navigation"`               |
+| Current locale        | `useLocale()` from `next-intl`                           |
+
+Client component pages (demo, ROI calculator) use a `layout.tsx` wrapper in their directory to handle server-side metadata via `generateMetadata()`.
+
+Every server page/layout calls `setRequestLocale(locale)` for static generation.
+
+### Language Switcher
+
+`LanguageSwitcher.tsx` renders a button showing "ES" or "EN" in the Header (desktop and mobile). Clicking it calls `router.replace(pathname, { locale: nextLocale })` to switch languages while preserving the current page.
+
+### Adding a New Locale
+
+1. Add the locale code to `src/i18n/routing.ts` `locales` array
+2. Create `messages/{locale}.json` with all keys translated
+3. Run `npm run build` to verify
 
 ---
 
@@ -188,7 +272,7 @@ Professional, confident, no-nonsense. Tagline: **"Your stores, perfectly in sync
 The landing page (`/`) is a single-page scrollable layout with scroll-triggered animations on each section:
 
 ### 1. Header (sticky)
-Persistent top navigation with the Plexo logo, anchor links (Features, How It Works, Pricing, FAQ), and a "Book a Demo" CTA button linking to `/demo`. Collapses to a hamburger menu on mobile. Logo always links back to the homepage.
+Persistent top navigation with the Plexo logo, anchor links (Features, How It Works, Pricing, FAQ), a language switcher (EN/ES), and a "Book a Demo" CTA button linking to `/demo`. Collapses to a hamburger menu on mobile with the same controls. Logo always links back to the homepage.
 
 ### 2. Hero
 - **Headline:** "Retail Operations, Perfected."
@@ -218,7 +302,7 @@ Seven expandable accordion items covering: onboarding time, offline support, tem
 Full-width indigo section with decorative gradient blobs and two CTAs linking to `/demo`.
 
 ### 10. Footer
-Three-column layout: brand description, Product links (Features, Pricing, How It Works), and Legal links (Privacy Policy, Terms of Service, Cookie Policy). Includes Twitter/X and LinkedIn social icons and a dynamic copyright year.
+Three-column layout: brand description, Product links (Features, Pricing, How It Works), and Legal links (Privacy Policy, Terms of Service, Cookie Policy). Includes a contact email link and a dynamic copyright year.
 
 ---
 
@@ -291,20 +375,20 @@ Includes a live preview during input and an email capture form to send a persona
 ### Formspree Configuration
 
 Both forms submit to Formspree endpoint `https://formspree.io/f/mvzbredr`. To change the endpoint, update the `FORMSPREE_URL` constant in:
-- `src/app/demo/page.tsx` (line 26)
-- `src/app/roi-calculator/page.tsx` (search for `formspree.io`)
+- `src/app/[locale]/demo/page.tsx`
+- `src/app/[locale]/roi-calculator/page.tsx`
 
 ---
 
 ## Legal Pages
 
-Three legal pages are accessible from the footer:
+Three legal pages are accessible from the footer, available in both locales:
 
-| Page            | Route      |
-| --------------- | ---------- |
-| Privacy Policy  | `/privacy` |
-| Terms of Service| `/terms`   |
-| Cookie Policy   | `/cookies` |
+| Page            | English Route | Spanish Route    |
+| --------------- | ------------- | ---------------- |
+| Privacy Policy  | `/privacy`    | `/es/privacy`    |
+| Terms of Service| `/terms`      | `/es/terms`      |
+| Cookie Policy   | `/cookies`    | `/es/cookies`    |
 
 Each page includes Header and Footer navigation for consistent site experience.
 
@@ -312,26 +396,27 @@ Each page includes Header and Footer navigation for consistent site experience.
 
 ## Components Reference
 
-All components live in `src/app/components/`. Client components (use `"use client"`):
+All components live in `src/app/components/`. Components use `useTranslations` or `getTranslations` from next-intl for all display text.
 
-| Component              | Client? | Purpose                                              |
-| ---------------------- | ------- | ---------------------------------------------------- |
-| `Header.tsx`           | Yes     | Sticky nav with mobile hamburger toggle              |
-| `Hero.tsx`             | No      | Hero section with CSS mockups                        |
-| `Problem.tsx`          | No      | Pain points cards                                    |
-| `Features.tsx`         | No      | Module grid with links to feature pages              |
-| `HowItWorks.tsx`       | No      | 3-step onboarding flow                               |
-| `MobileShowcase.tsx`   | No      | Phone mockup showcase                                |
-| `Pricing.tsx`          | No      | Demo-driven pricing section                          |
-| `FAQ.tsx`              | Yes     | Accordion expand/collapse                            |
-| `CTABanner.tsx`        | No      | Full-width CTA banner                                |
-| `Footer.tsx`           | No      | Site footer with links and social icons              |
-| `FeaturePageLayout.tsx`| No      | Shared layout for feature detail pages               |
-| `AnimateIn.tsx`        | Yes     | Scroll-triggered fade-in/slide-up animation wrapper  |
+| Component              | Client? | i18n API           | Purpose                                        |
+| ---------------------- | ------- | ------------------ | ---------------------------------------------- |
+| `Header.tsx`           | Yes     | `useTranslations`  | Sticky nav with mobile menu + language switcher |
+| `Hero.tsx`             | No      | `getTranslations`  | Hero section with CSS mockups                   |
+| `Problem.tsx`          | No      | `getTranslations`  | Pain points cards                               |
+| `Features.tsx`         | No      | `getTranslations`  | Module grid with links to feature pages         |
+| `HowItWorks.tsx`       | No      | `getTranslations`  | 3-step onboarding flow                          |
+| `MobileShowcase.tsx`   | No      | `getTranslations`  | Phone mockup showcase                           |
+| `Pricing.tsx`          | No      | `getTranslations`  | Demo-driven pricing section                     |
+| `FAQ.tsx`              | Yes     | `useTranslations`  | Accordion expand/collapse                       |
+| `CTABanner.tsx`        | No      | `getTranslations`  | Full-width CTA banner                           |
+| `Footer.tsx`           | No      | `useTranslations`  | Site footer with links and contact email        |
+| `FeaturePageLayout.tsx`| No      | Props from caller  | Shared layout for feature detail pages          |
+| `LanguageSwitcher.tsx` | Yes     | `useLocale`        | EN/ES toggle button                             |
+| `AnimateIn.tsx`        | Yes     | None               | Scroll-triggered fade-in/slide-up animation     |
 
 Page-level client components:
-- `demo/page.tsx` — Contact form with Formspree integration
-- `roi-calculator/page.tsx` — Interactive ROI calculator with email capture
+- `[locale]/demo/page.tsx` — Contact form with Formspree integration
+- `[locale]/roi-calculator/page.tsx` — Interactive ROI calculator with email capture
 
 ---
 
@@ -365,17 +450,22 @@ Plexo uses a **demo-driven, custom pricing model**. There are no public price ti
 The site includes a comprehensive SEO setup:
 
 ### Meta Tags
-Configured in `src/app/layout.tsx` via Next.js `Metadata` API:
-- Title, description, and keywords
+Configured in `src/app/[locale]/layout.tsx` via `generateMetadata()`:
+- Localized title and description per locale
 - Open Graph tags (`og:title`, `og:description`, `og:url`, `og:type`, `og:site_name`, `og:image`)
 - Twitter Card tags (`twitter:card`, `twitter:title`, `twitter:description`, `twitter:image`)
-- Canonical URL via `metadataBase` and `alternates.canonical`
+- Self-referential canonical URL per locale (English pages canonicalize to `/path`, Spanish to `/es/path`)
+
+### hreflang Tags
+Every page includes `<link rel="alternate" hreflang="en/es">` via the `getAlternates()` helper in `src/lib/seo.ts`. This helper generates:
+- Self-referential `canonical` based on the current locale
+- `languages.en` and `languages.es` alternate links
 
 ### Open Graph Image
 Auto-generated at build time via `src/app/opengraph-image.tsx` using Next.js `ImageResponse` API. Produces a 1200x630 PNG with Plexo branding, tagline, and URL.
 
 ### Sitemap
-Dynamic XML sitemap generated from `src/app/sitemap.ts`. Covers all 16 pages:
+Bilingual XML sitemap generated from `src/app/sitemap.ts`. Covers 15 pages × 2 locales = 30 URLs. Each entry includes `alternates.languages` pointing to both locale versions:
 - Homepage (priority 1, weekly)
 - Demo page (priority 0.9, monthly)
 - 9 feature pages (priority 0.8, monthly)
@@ -388,10 +478,10 @@ Accessible at [plexoapp.com/sitemap.xml](https://plexoapp.com/sitemap.xml).
 Static file at `public/robots.txt`. Allows all crawlers and points to the sitemap.
 
 ### Structured Data (JSON-LD)
-Embedded in the root layout as a `SoftwareApplication` schema with:
-- Application name, URL, category, and description
+Embedded in `src/app/[locale]/layout.tsx` as a `SoftwareApplication` schema with localized content:
+- Application name, URL, category, and translated description
 - Publisher organization with logo
-- Offer details (custom pricing)
+- Translated offer details (custom pricing)
 
 ### Heading Structure
 - Single `<h1>` per page
@@ -403,7 +493,7 @@ Embedded in the root layout as a `SoftwareApplication` schema with:
 
 ## Analytics
 
-The site uses **Vercel Analytics** (`@vercel/analytics`) for privacy-friendly, zero-config page view tracking. The `<Analytics />` component is included in the root layout and activates automatically on Vercel deployments.
+The site uses **Vercel Analytics** (`@vercel/analytics`) for privacy-friendly, zero-config page view tracking. The `<Analytics />` component is included in `src/app/[locale]/layout.tsx` and activates automatically on Vercel deployments.
 
 View analytics at: [vercel.com/dashboard](https://vercel.com) → Project → Analytics tab.
 
@@ -438,17 +528,7 @@ The site is deployed to Vercel with auto-deploy on push to `main`:
 
 ### Static Export (alternative)
 
-Add to `next.config.mjs`:
-
-```js
-const nextConfig = {
-  output: 'export',
-};
-```
-
-Then run `npm run build` — the static site will be generated in the `out/` directory, deployable to any static host (Netlify, Cloudflare Pages, S3 + CloudFront, etc.).
-
-Note: The `opengraph-image.tsx` edge route will not work with static export. You would need to replace it with a static PNG at `public/og-image.png`.
+Static export (`output: 'export'`) is **not compatible** with the current setup because next-intl middleware requires a server runtime for locale detection and routing. If static export is needed, you would need to switch to a prefix-based locale strategy without middleware. See the [next-intl static export docs](https://next-intl.dev/docs/getting-started/app-router/without-i18n-routing).
 
 ---
 
@@ -456,31 +536,35 @@ Note: The `opengraph-image.tsx` edge route will not work with static export. You
 
 ### Environment Variables
 
-No environment variables are required. This is a fully static site with Formspree handling form submissions.
+No environment variables are required. Formspree handles form submissions; no custom backend needed.
 
 ### Key Configuration Files
 
 - **`tailwind.config.ts`** — Brand colors, font families, and content paths for Tailwind purging
-- **`next.config.mjs`** — Next.js settings (currently default; add `output: 'export'` for static builds)
-- **`src/app/layout.tsx`** — SEO metadata, OG tags, Twitter cards, JSON-LD, favicon, Vercel Analytics
-- **`src/app/sitemap.ts`** — Sitemap configuration (add new pages here)
+- **`next.config.mjs`** — Next.js config wrapped with `createNextIntlPlugin`
+- **`src/i18n/routing.ts`** — Locale list, default locale, prefix mode
+- **`src/i18n/request.ts`** — Per-request locale resolution and message loading
+- **`src/middleware.ts`** — Locale detection and URL routing
+- **`src/app/[locale]/layout.tsx`** — SEO metadata, OG tags, JSON-LD, `NextIntlClientProvider`, Analytics
+- **`src/app/sitemap.ts`** — Bilingual sitemap configuration (add new pages here)
 - **`src/app/opengraph-image.tsx`** — OG image design (edit branding/text here)
+- **`src/lib/seo.ts`** — hreflang and canonical URL helper
 - **`public/robots.txt`** — Crawler directives
 - **`src/app/globals.css`** — Google Fonts import, smooth scrolling, base typography
 
 ### Modifying Content
 
-All marketing copy is co-located in the component files. To update:
+All marketing copy lives in the translation files `messages/en.json` and `messages/es.json`, organized by component namespace. To update text:
 
-- **Hero text** — `src/app/components/Hero.tsx`
-- **Feature descriptions** — `src/app/components/Features.tsx` (edit the `features` array)
-- **Pricing section** — `src/app/components/Pricing.tsx`
-- **FAQ items** — `src/app/components/FAQ.tsx` (edit the `faqs` array)
-- **Navigation links** — `src/app/components/Header.tsx` (edit the `navLinks` array)
-- **Footer links** — `src/app/components/Footer.tsx` (edit the `footerLinks` array)
-- **Feature pages** — `src/app/features/{slug}/page.tsx` (each page is self-contained)
-- **Demo form** — `src/app/demo/page.tsx` (fields, validation, Formspree endpoint)
-- **ROI calculator** — `src/app/roi-calculator/page.tsx` (inputs, formulas, Formspree endpoint)
+1. Find the namespace for the component (e.g., `"Hero"`, `"FAQ"`, `"FeaturesTasksPage"`)
+2. Edit the key in both `messages/en.json` and `messages/es.json`
+3. Run `npm run build` to verify no missing keys
+
+Structural changes (adding fields, changing layout, updating icons) are still in the component files:
+
+- **Feature pages** — `src/app/[locale]/features/{slug}/page.tsx`
+- **Demo form** — `src/app/[locale]/demo/page.tsx` (fields, validation, Formspree endpoint)
+- **ROI calculator** — `src/app/[locale]/roi-calculator/page.tsx` (inputs, formulas, Formspree endpoint)
 - **Formspree endpoint** — Update `FORMSPREE_URL` in `demo/page.tsx` and `roi-calculator/page.tsx`
 
 ---

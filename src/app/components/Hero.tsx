@@ -1,4 +1,9 @@
-export default function Hero() {
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+
+export default async function Hero() {
+  const t = await getTranslations("Hero");
+
   return (
     <section className="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
       {/* Background gradient */}
@@ -7,28 +12,27 @@ export default function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900">
-            Retail Operations,{" "}
+            {t("titleLine1")}{" "}
             <span className="bg-gradient-to-r from-indigo-600 to-violet-500 bg-clip-text text-transparent">
-              Perfected.
+              {t("titleLine2")}
             </span>
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            The all-in-one platform to manage tasks, audits, training, and
-            campaigns across every store.
+            {t("subtitle")}
           </p>
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
+            <Link
               href="/demo"
               className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-600/25 transition-all hover:shadow-xl hover:shadow-indigo-600/30"
             >
-              Book a Demo
-            </a>
-            <a
-              href="#pricing"
+              {t("ctaPrimary")}
+            </Link>
+            <Link
+              href="/#pricing"
               className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-slate-700 bg-white border-2 border-slate-200 rounded-xl hover:border-indigo-300 hover:text-indigo-600 transition-all"
             >
-              See What&apos;s Included
-            </a>
+              {t("ctaSecondary")}
+            </Link>
           </div>
         </div>
 
@@ -47,10 +51,10 @@ export default function Hero() {
               <div className="bg-slate-50 rounded-lg p-6 sm:p-8">
                 <div className="grid grid-cols-4 gap-4 mb-6">
                   {[
-                    { label: "Active Tasks", value: "247", color: "bg-indigo-600" },
-                    { label: "Compliance", value: "94%", color: "bg-emerald-500" },
-                    { label: "Open Audits", value: "12", color: "bg-violet-500" },
-                    { label: "Campaigns", value: "8", color: "bg-amber-500" },
+                    { label: t("mockupStatLabel1"), value: "247", color: "bg-indigo-600" },
+                    { label: t("mockupStatLabel2"), value: "94%", color: "bg-emerald-500" },
+                    { label: t("mockupStatLabel3"), value: "12", color: "bg-violet-500" },
+                    { label: t("mockupStatLabel4"), value: "8", color: "bg-amber-500" },
                   ].map((stat) => (
                     <div key={stat.label} className="bg-white rounded-lg p-3 sm:p-4 shadow-sm">
                       <div className={`w-8 h-1.5 rounded ${stat.color} mb-2`} />
@@ -107,10 +111,10 @@ export default function Hero() {
               <div className="bg-white rounded-xl p-2 sm:p-3">
                 <div className="w-8 h-1 bg-slate-300 rounded mx-auto mb-2" />
                 <div className="space-y-1.5">
-                  {["Task completed", "Audit due", "New campaign"].map((t) => (
-                    <div key={t} className="bg-slate-50 rounded p-1.5">
+                  {[t("phoneNotif1"), t("phoneNotif2"), t("phoneNotif3")].map((label) => (
+                    <div key={label} className="bg-slate-50 rounded p-1.5">
                       <div className="w-2 h-2 bg-emerald-500 rounded-full inline-block mr-1" />
-                      <span className="text-[8px] sm:text-[10px] text-slate-600">{t}</span>
+                      <span className="text-[8px] sm:text-[10px] text-slate-600">{label}</span>
                     </div>
                   ))}
                 </div>

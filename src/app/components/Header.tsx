@@ -2,47 +2,52 @@
 
 import { useState } from "react";
 import Image from "next/image";
-
-const navLinks = [
-  { label: "Features", href: "/#features" },
-  { label: "How It Works", href: "/#how-it-works" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "FAQ", href: "/#faq" },
-];
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const t = useTranslations("Header");
+
+  const navLinks = [
+    { label: t("features"), href: "/#features" },
+    { label: t("howItWorks"), href: "/#how-it-works" },
+    { label: t("pricing"), href: "/#pricing" },
+    { label: t("faq"), href: "/#faq" },
+  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-[72px]">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
             <Image src="/logo.svg" alt="Plexo" width={160} height={40} priority />
-          </a>
+          </Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 className="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center">
-            <a
+          <div className="hidden md:flex items-center gap-4">
+            <LanguageSwitcher />
+            <Link
               href="/demo"
               className="inline-flex items-center px-5 py-2.5 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
             >
-              Book a Demo
-            </a>
+              {t("bookDemo")}
+            </Link>
           </div>
 
           {/* Mobile hamburger */}
@@ -67,22 +72,25 @@ export default function Header() {
         <div className="md:hidden bg-white border-t border-slate-200">
           <div className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className="block text-sm font-medium text-slate-600 hover:text-indigo-600"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
-            <a
+            <div className="pt-1">
+              <LanguageSwitcher />
+            </div>
+            <Link
               href="/demo"
               onClick={() => setMobileOpen(false)}
               className="block w-full text-center px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition-colors"
             >
-              Book a Demo
-            </a>
+              {t("bookDemo")}
+            </Link>
           </div>
         </div>
       )}

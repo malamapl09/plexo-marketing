@@ -1,4 +1,9 @@
-export default function MobileShowcase() {
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
+
+export default async function MobileShowcase() {
+  const t = await getTranslations("MobileShowcase");
+
   return (
     <section className="py-20 sm:py-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -6,22 +11,20 @@ export default function MobileShowcase() {
           {/* Text */}
           <div>
             <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wide mb-3">
-              Mobile-first
+              {t("sectionLabel")}
             </p>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-              Your team works on the floor, not at a desk.
+              {t("title")}
             </h2>
             <p className="mt-4 text-lg text-slate-600 leading-relaxed">
-              Plexo&apos;s native mobile app puts every task, checklist, and audit
-              in your team&apos;s pocket. Offline-capable, photo capture, push
-              notifications — everything field teams need.
+              {t("subtitle")}
             </p>
             <ul className="mt-8 space-y-4">
               {[
-                "Complete tasks and checklists on the go",
-                "Capture photos for audit evidence",
-                "Receive real-time push notifications",
-                "Works offline — syncs when connected",
+                t("feature1"),
+                t("feature2"),
+                t("feature3"),
+                t("feature4"),
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <div className="mt-1 w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -33,6 +36,14 @@ export default function MobileShowcase() {
                 </li>
               ))}
             </ul>
+            <div className="mt-8">
+              <Link
+                href="/demo"
+                className="inline-flex items-center justify-center px-8 py-3.5 text-base font-semibold text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 shadow-lg shadow-indigo-600/25 transition-all"
+              >
+                {t("ctaText")}
+              </Link>
+            </div>
           </div>
 
           {/* Phone mockup */}

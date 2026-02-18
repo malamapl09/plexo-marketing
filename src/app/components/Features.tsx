@@ -1,17 +1,18 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/navigation";
 import { ReactNode } from "react";
 
 interface Feature {
-  title: string;
-  desc: string;
+  titleKey: string;
+  descKey: string;
   href: string;
   icon: ReactNode;
 }
 
 const features: Feature[] = [
   {
-    title: "Tasks & Assignments",
-    desc: "Create, assign, and track tasks across all stores with deadlines and priority levels.",
+    titleKey: "feature1Title",
+    descKey: "feature1Desc",
     href: "/features/tasks",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -20,8 +21,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Checklists & SOPs",
-    desc: "Standardize operations with reusable checklists and step-by-step procedures.",
+    titleKey: "feature2Title",
+    descKey: "feature2Desc",
     href: "/features/checklists",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,8 +31,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Store Audits & Inspections",
-    desc: "Run scheduled or ad-hoc audits with photo evidence and scoring.",
+    titleKey: "feature3Title",
+    descKey: "feature3Desc",
     href: "/features/audits",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -40,8 +41,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Campaign Execution",
-    desc: "Roll out marketing campaigns across stores and track execution in real time.",
+    titleKey: "feature4Title",
+    descKey: "feature4Desc",
     href: "/features/campaigns",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,8 +51,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Training & LMS",
-    desc: "Deliver training content, track completions, and certify your teams.",
+    titleKey: "feature5Title",
+    descKey: "feature5Desc",
     href: "/features/training",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -60,8 +61,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Corrective Actions",
-    desc: "Automatically trigger CAPA workflows when audits or inspections fail.",
+    titleKey: "feature6Title",
+    descKey: "feature6Desc",
     href: "/features/corrective-actions",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,8 +71,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Gamification & Leaderboards",
-    desc: "Motivate teams with points, badges, and store-vs-store leaderboards.",
+    titleKey: "feature7Title",
+    descKey: "feature7Desc",
     href: "/features/gamification",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,8 +81,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Visual Merchandising",
-    desc: "Share planograms and visual standards, verify compliance with photos.",
+    titleKey: "feature8Title",
+    descKey: "feature8Desc",
     href: "/features/visual-merchandising",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -90,8 +91,8 @@ const features: Feature[] = [
     ),
   },
   {
-    title: "Issue Tracking",
-    desc: "Report and resolve issues fast with categorization, assignment, and SLA tracking.",
+    titleKey: "feature9Title",
+    descKey: "feature9Desc",
     href: "/features/issue-tracking",
     icon: (
       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -101,27 +102,28 @@ const features: Feature[] = [
   },
 ];
 
-export default function Features() {
+export default async function Features() {
+  const t = await getTranslations("Features");
+
   return (
     <section id="features" className="py-20 sm:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <p className="text-sm font-semibold text-indigo-600 uppercase tracking-wide mb-3">
-            Everything you need
+            {t("badge")}
           </p>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
-            One platform, nine powerful modules
+            {t("title")}
           </h2>
           <p className="mt-4 text-lg text-slate-600">
-            Replace scattered tools with a single source of truth for your entire
-            retail operation.
+            {t("subtitle")}
           </p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature) => (
             <Link
-              key={feature.title}
+              key={feature.titleKey}
               href={feature.href}
               className="group bg-white border border-slate-200 rounded-2xl p-6 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-600/5 transition-all"
             >
@@ -129,11 +131,11 @@ export default function Features() {
                 {feature.icon}
               </div>
               <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                {feature.title}
+                {t(feature.titleKey as Parameters<typeof t>[0])}
               </h3>
-              <p className="text-slate-600 leading-relaxed">{feature.desc}</p>
+              <p className="text-slate-600 leading-relaxed">{t(feature.descKey as Parameters<typeof t>[0])}</p>
               <span className="inline-flex items-center gap-1 mt-4 text-sm font-medium text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity">
-                Learn more
+                {t("learnMore")}
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
