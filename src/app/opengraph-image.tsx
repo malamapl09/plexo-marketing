@@ -26,9 +26,6 @@ export default function OgImage() {
             <circle cx="20" cy="22" r="10" fill="#818CF8" />
             <circle cx="44" cy="22" r="10" fill="#A78BFA" />
             <circle cx="32" cy="44" r="10" fill="#34D399" />
-            <line x1="26" y1="26" x2="38" y2="26" stroke="#818CF8" strokeWidth="4" />
-            <line x1="24" y1="30" x2="29" y2="40" stroke="#818CF8" strokeWidth="4" />
-            <line x1="40" y1="30" x2="35" y2="40" stroke="#A78BFA" strokeWidth="4" />
           </svg>
           <div style={{ fontSize: "64px", fontWeight: 800, color: "white", letterSpacing: "-2px" }}>
             Plexo
